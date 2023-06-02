@@ -1,5 +1,8 @@
 package com.example.hw15.service;
 
+import com.example.hw15.Exception.EmployeeAlreadyAddedException;
+import com.example.hw15.Exception.EmployeeNotFoundException;
+import com.example.hw15.Exception.EmployeeStorageIsFullException;
 import com.example.hw15.model.Employee;
 import org.springframework.stereotype.Service;
 
@@ -9,17 +12,27 @@ import java.util.Collection;
 public class EmployeeService {
   private final Collection <Employee> employees = new ArrayList<>(SIZE_LIMIT);
   private static final int SIZE_LIMIT= 5;
+  public Collection<Employee> getAll(){
+      return employees;
+  }
     public Employee add(Employee employee){
+        if (employees.size()>=SIZE_LIMIT){
+            throw new EmployeeStorageIsFullException();
+        }
+        if (employees.contains(employee)){
+            throw new EmployeeAlreadyAddedException();
+        }
        employees.add(employee);
        return employee;
     }
+
     public Employee find(String firstName, String lastName){
         for (Employee employee : employees) {
             if (employee.getFirstName(). equals(firstName) && employee.getLasteName().equals(lastName)) {
                 return employee;
             } 
         }
-        return null;
+        throw new EmployeeNotFoundException();
     }
     public Employee remove(String firstName, String lastName){
         Employee employee = find(firstName, lastName);
