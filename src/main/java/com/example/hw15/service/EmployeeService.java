@@ -8,35 +8,43 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class EmployeeService {
-  private final Collection <Employee> employees = new ArrayList<>(SIZE_LIMIT);
-  private static final int SIZE_LIMIT= 5;
-  public Collection<Employee> getAll(){
-      return employees;
-  }
-    public Employee add(Employee employee){
-        if (employees.size()>=SIZE_LIMIT){
+    private final Map<String, Employee> employees = new HashMap<>(SIZE_LIMIT);
+    private static final int SIZE_LIMIT = 5;
+
+    public Collection<Employee> getAll() {
+        return employees.values();
+    }
+
+    public Employee add(Employee employee) {
+        if (employees.size() >= SIZE_LIMIT) {
             throw new EmployeeStorageIsFullException();
         }
-        if (employees.contains(employee)){
+        if (employees.containsKey(creatKey(employee))) {
             throw new EmployeeAlreadyAddedException();
         }
-       employees.add(employee);
-       return employee;
-    }
-    public Employee find(String firstName, String lastName){
-        for (Employee employee : employees) {
-            if (employee.getFirstName(). equals(firstName) && employee.getLasteName().equals(lastName)) {
-                return employee;
-            } 
-        }
-        throw new EmployeeNotFoundException();
-    }
-    public Employee remove(String firstName, String lastName){
-        Employee employee = find(firstName, lastName);
-        employees.remove(employee);
+        employees.put(creatKey(employee), employee);
         return employee;
+    }
 
+    public Employee find(String firstName, String lastName) {
+        Employee employee = employees.get((firstName + " " + lastName).toLowerCase());
+        if (employee == null) {
+            throw new EmployeeNotFoundException();
+        }
+        return employee;
+    }
+
+    public Employee remove(String firstName, String lastName) {
+
+        return employees.remove((firstName + " " + lastName).toLowerCase());
+    }
+
+    public String creatKey(Employee employee) {
+        return (employee.getFirstName() + employee.getLasteName()).toLowerCase();
     }
 }
