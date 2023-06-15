@@ -19,8 +19,8 @@ public class EmployeeController {
         return employeeService.getAll();
     }
 @RequestMapping("/add")
-    public Employee add(String firstName, String lastName){
-       return employeeService.add(new Employee(firstName, lastName));
+    public Employee add(String firstName, String lastName, Integer department, double salary){
+       return employeeService.add(new Employee(firstName, lastName, department, salary));
     }
     @RequestMapping("/remove")
     public Employee remove(String firstName, String lastName){
