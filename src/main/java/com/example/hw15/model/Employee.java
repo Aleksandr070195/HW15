@@ -17,15 +17,15 @@ public class Employee {
     public void setLasteName(String lasteName) {
         LasteName = lasteName;
     }
-
     public String getFirstName() {
         return firstName;
     }
-
     public String getLasteName() {
         return LasteName;
     }
-
+    public String getFullName(){
+        return (firstName + LasteName).toLowerCase();
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -33,7 +33,6 @@ public class Employee {
         Employee employee = (Employee) o;
         return Objects.equals(firstName, employee.firstName) && Objects.equals(LasteName, employee.LasteName);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(firstName, LasteName);
