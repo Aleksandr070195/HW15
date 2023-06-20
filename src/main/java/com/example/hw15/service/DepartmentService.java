@@ -23,14 +23,12 @@ public class DepartmentService {
                 .orElse(null);
 
     }
-
     public Employee getEmployWithMinSalary(int department) {
         return employeeService.getAll().stream()
                 .filter(e -> e.getDepartment() == department)
                 .min(Comparator.comparingDouble(Employee::getSalary))
                 .orElse(null);
     }
-
     public List<Employee> getEmployeeByDepartment(int department) {
 return employeeService.getAll().stream()
         .filter(e -> e.getDepartment() == department)
