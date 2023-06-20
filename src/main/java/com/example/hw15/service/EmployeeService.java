@@ -3,7 +3,9 @@ package com.example.hw15.service;
 import com.example.hw15.Exception.EmployeeAlreadyAddedException;
 import com.example.hw15.Exception.EmployeeNotFoundException;
 import com.example.hw15.Exception.EmployeeStorageIsFullException;
+import com.example.hw15.Exception.InvalidDataException;
 import com.example.hw15.model.Employee;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +23,10 @@ public class EmployeeService {
     }
 
     public Employee add(Employee employee) {
+        if (!StringUtils.isAlpha(employee.getFirstName())||!StringUtils.isAlpha(employee.getLasteName())) {
+
+            throw new InvalidDataException();
+        }
         if (employees.size() >= SIZE_LIMIT) {
             throw new EmployeeStorageIsFullException();
         }

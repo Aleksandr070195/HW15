@@ -1,5 +1,7 @@
 package com.example.hw15.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Objects;
 
 public class Employee {
@@ -9,8 +11,8 @@ public class Employee {
     private double salary;
 
     public Employee(String firstName, String lasteName, Integer department, double salary) {
-        this.firstName = firstName;
-        LasteName = lasteName;
+        this.firstName = StringUtils.capitalize(firstName.toLowerCase());
+        LasteName = StringUtils.capitalize(lasteName.toLowerCase());
         this.department = department;
         this.salary = salary;
     }
